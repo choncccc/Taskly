@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:task_app/controller/login_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,10 +13,13 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   bool _showForm = false;
   bool _logoAtTop = false;
+  late LoginController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = LoginController();
+
     // Animate logo + form
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
@@ -27,6 +31,12 @@ class _LoginViewState extends State<LoginView> {
         });
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,6 +75,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       // Username input
                       TextField(
+                        controller: _controller.emailController,
                         cursorColor: const Color(0xFF0B375C),
                         decoration: InputDecoration(
                           prefixIcon: Padding(
@@ -103,6 +114,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       // Password input
                       TextField(
+                        controller: _controller.passwordController,
                         cursorColor: const Color(0xFF0B375C),
                         obscureText: true,
                         decoration: InputDecoration(
@@ -135,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
                           backgroundColor: const Color(0xFF0B375C),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home');
+                          _controller.login(context);
                         },
                         child: const Text(
                           'Login',

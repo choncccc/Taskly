@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class RegisterController {
+class LoginController {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   final SupabaseClient _supabase = Supabase.instance.client;
 
   void dispose() {
     emailController.dispose();
-    usernameController.dispose();
     passwordController.dispose();
   }
 
-  Future<void> register(BuildContext context) async {
+  Future<void> login(BuildContext context) async {
     String email = emailController.text.trim();
-    String username = usernameController.text.trim();
     String password = passwordController.text.trim();
 
-    if (email.isEmpty || username.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty) {
       _showToast("Please fill all fields", Colors.red);
       return;
     }
@@ -30,20 +27,18 @@ class RegisterController {
     }
 
     try {
-      // Sign up with Supabase
-      final response = await _supabase.auth.signUp(
+      final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
-        data: {
-          'username': username, // optional metadata field
-        },
       );
 
       if (response.user != null) {
-        _showToast("Registered Successfully", Colors.green);
-        Navigator.pushReplacementNamed(context, '/');
+        _showToast("Login Successful", Colors.green);
+
+        // Navigate to HomeView
+        Navigator.pushReplacementNamed(context, '/home');
       } else {
-        _showToast("Registration failed. Try again.", Colors.red);
+        _showToast("Invalid login credentials", Colors.red);
       }
     } on AuthException catch (e) {
       _showToast(e.message, Colors.red);

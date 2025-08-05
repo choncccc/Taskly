@@ -108,7 +108,7 @@ Widget build(BuildContext context) {
               ),
               const SizedBox(height: 6),
 
-              // Username input
+              // Username
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: TextField(
@@ -153,7 +153,7 @@ Widget build(BuildContext context) {
               ),
               const SizedBox(height: 6),
 
-              // Password input
+              // Password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: TextField(
@@ -208,7 +208,6 @@ Widget build(BuildContext context) {
               ),
               const SizedBox(height: 20),
 
-              // Login redirect text
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
